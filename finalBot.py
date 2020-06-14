@@ -3,6 +3,8 @@ from flask import Flask, request
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Dispatcher
 from telegram import Bot, Update, ReplyKeyboardMarkup
 from utils import get_reply, fetch_news, topics_keyboard
+from importlib import reload
+from petshop import parrot as parrot
 #enable logging
 logging.basicConfig(format = '%(asctime)s - %(name)s - %(message)s', level = logging.INFO)
 
