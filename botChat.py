@@ -3,8 +3,6 @@ from flask import Flask, request
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Dispatcher
 from telegram import Bot, Update, ReplyKeyboardMarkup
 from utils import get_reply, fetch_news, topics_keyboard
-from importlib import reload
-from petshop import parrot as parrot
 #enable logging
 logging.basicConfig(format = '%(asctime)s - %(name)s - %(message)s', level = logging.INFO)
 
@@ -60,22 +58,17 @@ def error(bot, update):
     author = update.message.from_user.first_name
     logger.error("You just uh destroy my rehfrigerator {}.\n Update {} caused error {}".format(author, update, update.error))
 
-
-bot = Bot(TOKEN)
-try:
-    bot.set_webhook("https://warm-caverns-53021.herokuapp.com/" + TOKEN)
-except Exception as e:
-    print(e)
-
-#Dispatcher
-dp = Dispatcher(bot, None) #None is an update_queue
-#The dispatcher will have multiple handlers
-dp.add_handler(CommandHandler("start",start))
-dp.add_handler(CommandHandler("help",_help))
-dp.add_handler(CommandHandler("news", news))
-dp.add_handler(MessageHandler(Filters.text,reply_text))
-dp.add_handler(MessageHandler(Filters.sticker, echo_sticker))
-dp.add_error_handler(error)
-
 if __name__ == "__main__":
+    bot = Bot(TOKEN)
+    bot.set_webhook("https://c022adfde99c.ngrok.io/" + TOKEN)
+
+    #Dispatcher
+    dp = Dispatcher(bot, None) #None is an update_queue
+    #The dispatcher will have multiple handlers
+    dp.add_handler(CommandHandler("start",start))
+    dp.add_handler(CommandHandler("help",_help))
+    dp.add_handler(CommandHandler("news", news))
+    dp.add_handler(MessageHandler(Filters.text,reply_text))
+    dp.add_handler(MessageHandler(Filters.sticker, echo_sticker))
+    dp.add_error_handler(error)
     app.run(port = 8443)
